@@ -1,13 +1,25 @@
-import com.spella.Token;
-import com.spella.TokenType;
+import com.spella.Lexer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
+    public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) {
+        var lexer = new Lexer();
 
-        var token = new Token(TokenType.LPAREN, "(", null, 1, 1);
-        System.out.println(token);
+        // Simple REPL loop
+        var br = new BufferedReader(new InputStreamReader(System.in));
+        var line = "";
+        while (true) {
+            line = br.readLine();
+
+            var tokens = lexer.tokenize(line);
+
+            // For now just printing out recognized tokens
+            System.out.println(tokens);
+        }
 
     }
 }
