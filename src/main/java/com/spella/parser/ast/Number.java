@@ -1,6 +1,6 @@
 package com.spella.parser.ast;
 
-public class Number implements Expression{
+final public class Number implements Expression{
 
     private final double value;
 
