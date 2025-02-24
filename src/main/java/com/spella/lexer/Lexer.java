@@ -1,4 +1,4 @@
-package com.spella;
+package com.spella.lexer;
 
 import java.util.ArrayList;
 import java.util.List;

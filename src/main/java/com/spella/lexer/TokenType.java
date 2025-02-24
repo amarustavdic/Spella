@@ -1,4 +1,4 @@
-package com.spella;
+package com.spella.lexer;
 
 public enum TokenType {
     // Basic Tokens

@@ -1,4 +1,4 @@
-import com.spella.Lexer;
+import com.spella.lexer.Lexer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
