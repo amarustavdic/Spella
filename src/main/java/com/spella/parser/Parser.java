@@ -1,4 +1,4 @@
-package com.spella.lexer;
+package com.spella.parser;
 
 public class Parser {
 
