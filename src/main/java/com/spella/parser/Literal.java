@@ -12,14 +12,4 @@ final public class Literal implements Expression {
         return value;
     }
 
-    public static void main(String[] args) {
-
-        var expr = new Binary(
-                new Literal(2),
-                "PLUS",
-                new Literal(3)
-        );
-
-    }
-
 }
