@@ -18,7 +18,9 @@ public class Main {
             var tokens = lexer.tokenize(line);
 
             // For now just printing out recognized tokens
-            System.out.println(tokens);
+            for (var token : tokens) {
+                System.out.println(token.getType());
+            }
         }
 
     }

@@ -26,4 +26,25 @@ public class Token {
                 + "\"column\": " + column
                 + "}";
     }
+
+    public TokenType getType() {
+        return type;
+    }
+
+    public String getLexeme() {
+        return lexeme;
+    }
+
+    public Object getLiteral() {
+        return literal;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
 }
