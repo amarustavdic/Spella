@@ -1,4 +1,4 @@
-## Spella: Custom Arithmetic Evaluator with REPL
+# Spella: Custom Arithmetic Evaluator with REPL
 
 Spella is an interactive **Read-Eval-Print Loop (REPL)** for evaluating
 arithmetic expressions. The core of this project lies in parsing and 
