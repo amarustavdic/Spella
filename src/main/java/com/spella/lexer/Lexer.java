@@ -35,8 +35,17 @@ public class Lexer {
             } else if (Character.isDigit(c)) {
                 int startColumn = column;
                 StringBuilder number = new StringBuilder();
-                while (cursor < input.length() && Character.isDigit(input.charAt(cursor))) {
-                    number.append(input.charAt(cursor));
+                boolean isDouble = false;
+                int inputLength = input.length();
+                while (cursor < inputLength) {
+                    char ch = input.charAt(cursor);
+                    if (Character.isDigit(ch)) number.append(ch);
+                    else if (ch == '.') {
+                        if (isDouble)
+                            throw new RuntimeException("Unexpected character '" + ch + "' at line " + (line + 1) + ", column " + (column + 1));
+                        isDouble = true;
+                        number.append('.');
+                    } else break;
                     cursor++;
                     column++;
                 }
@@ -58,7 +67,7 @@ public class Lexer {
                 column += 10;
                 tokens.add(new Token(TokenType.DIVIDED_BY, "/", null, line, column));
             } else
-                throw new RuntimeException("Unexpected character '" + c + "' at line " + line + ", column " + column);
+                throw new RuntimeException("Unexpected character '" + c + "' at line " + (line + 1) + ", column " + (column + 1));
         }
 
         return tokens;
