@@ -42,7 +42,7 @@ public class LexerTest {
         Lexer lexer = new Lexer("( )()");
         List<Token> tokens = lexer.tokenize();
 
-        assertEquals(3, tokens.size());
+        assertEquals(5, tokens.size());
         assertToken(tokens.get(0), TokenType.LPAREN, "(");
         assertToken(tokens.get(1), TokenType.RPAREN, ")");
         assertToken(tokens.get(2), TokenType.LPAREN, "(");
@@ -99,7 +99,7 @@ public class LexerTest {
         Lexer lexer = new Lexer("minus5 plus minus 3");
         List<Token> tokens = lexer.tokenize();
 
-        assertEquals(5, tokens.size());
+        assertEquals(6, tokens.size());
         assertToken(tokens.get(0), TokenType.MINUS, "minus");
         assertToken(tokens.get(1), TokenType.NUMBER, "5");
         assertToken(tokens.get(2), TokenType.PLUS, "plus");

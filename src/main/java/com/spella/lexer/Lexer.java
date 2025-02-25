@@ -60,19 +60,19 @@ public class Lexer {
             } else if (input.startsWith("plus", cursor)) {
                 cursor += 4;
                 column += 4;
-                tokens.add(new Token(TokenType.PLUS, "+", null, line, column));
+                tokens.add(new Token(TokenType.PLUS, "plus", null, line, column));
             } else if (input.startsWith("minus", cursor)) {
                 cursor += 5;
                 column += 5;
-                tokens.add(new Token(TokenType.MINUS, "-", null, line, column));
+                tokens.add(new Token(TokenType.MINUS, "minus", null, line, column));
             } else if (input.startsWith("times", cursor)) {
                 cursor += 5;
                 column += 5;
-                tokens.add(new Token(TokenType.TIMES, "*", null, line, column));
+                tokens.add(new Token(TokenType.TIMES, "times", null, line, column));
             } else if (input.startsWith("divided by", cursor)) {
                 cursor += 10;
                 column += 10;
-                tokens.add(new Token(TokenType.DIVIDED_BY, "/", null, line, column));
+                tokens.add(new Token(TokenType.DIVIDED_BY, "divided by", null, line, column));
             } else
                 throw new RuntimeException("Unexpected character '" + c + "' at line " + (line + 1) + ", column " + (column + 1));
         }
