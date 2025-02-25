@@ -78,7 +78,7 @@ Bellow is the grammar for the supported expressions:
 
 <factor> ::= <unary> | <grouping> | <number>
 
-<unary> ::= "-" <factor>
+<unary> ::= "minus" <factor>
 
 <grouping> ::= "(" <expression> ")"
 
