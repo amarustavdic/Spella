@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lexer {
+
+    private final String input;
+    private final List<Token> tokens = new ArrayList<>();
+    private int cursor = 0;
+    private int line = 0;
+    private int column = 0;
+
+    public Lexer(String input) {
+        this.input = input;
+    }
+
     /*
         Takes stream of characters as input and turns them into
         meaningful tokens, that are then processed further by parser
      */
-    public List<Token> tokenize(String input) {
-        List<Token> tokens = new ArrayList<>();
-        int cursor = 0;
-        int line = 0;
-        int column = 0;
+    public List<Token> tokenize() {
 
         while (cursor < input.length()) {
             char c = input.charAt(cursor);
@@ -69,6 +76,9 @@ public class Lexer {
             } else
                 throw new RuntimeException("Unexpected character '" + c + "' at line " + (line + 1) + ", column " + (column + 1));
         }
+
+        // It is not that important here but bro how could have you forgotten about EOF :)
+        tokens.add(new Token(TokenType.EOF, "", null, line, column));
 
         return tokens;
     }
