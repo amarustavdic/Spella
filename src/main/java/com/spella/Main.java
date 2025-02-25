@@ -1,3 +1,5 @@
+package com.spella;
+
 import com.spella.lexer.Lexer;
 import com.spella.parser.Parser;
 
