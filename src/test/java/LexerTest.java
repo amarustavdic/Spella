@@ -39,13 +39,15 @@ public class LexerTest {
 
     @Test
     void testParentheses() {
-        Lexer lexer = new Lexer("( )");
+        Lexer lexer = new Lexer("( )()");
         List<Token> tokens = lexer.tokenize();
 
         assertEquals(3, tokens.size());
         assertToken(tokens.get(0), TokenType.LPAREN, "(");
         assertToken(tokens.get(1), TokenType.RPAREN, ")");
-        assertToken(tokens.get(2), TokenType.EOF, "");
+        assertToken(tokens.get(2), TokenType.LPAREN, "(");
+        assertToken(tokens.get(3), TokenType.RPAREN, ")");
+        assertToken(tokens.get(4), TokenType.EOF, "");
     }
 
     @Test
