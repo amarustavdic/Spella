@@ -2,6 +2,8 @@ import com.spella.lexer.Token;
 import com.spella.lexer.TokenType;
 import com.spella.parser.Parser;
 import com.spella.parser.ast.Expr;
+import com.spella.parser.visitors.Evaluator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTest {
+
+    private static Evaluator evaluator;
+
+    @BeforeAll
+    static void setUp() {
+        evaluator = new Evaluator();
+    }
 
     @Test
     void testSimpleAddition() {
@@ -22,7 +31,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         var ast = parser.parse();
 
-        assertEquals(3, ast.evaluate());
+        assertEquals(3, ast.accept(evaluator));
     }
 
     @Test
@@ -37,7 +46,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(2, ast.evaluate());
+        assertEquals(2, ast.accept(evaluator));
     }
 
     @Test
@@ -52,7 +61,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(8, ast.evaluate());
+        assertEquals(8, ast.accept(evaluator));
     }
 
     @Test
@@ -67,7 +76,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(4, ast.evaluate());
+        assertEquals(4, ast.accept(evaluator));
     }
 
     @Test
@@ -84,7 +93,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(14, ast.evaluate());
+        assertEquals(14, ast.accept(evaluator));
     }
 
     @Test
@@ -103,7 +112,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(20, ast.evaluate());
+        assertEquals(20, ast.accept(evaluator));
     }
 
     @Test
@@ -119,7 +128,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(-2, ast.evaluate()); // (-5) + 3 = -2
+        assertEquals(-2, ast.accept(evaluator)); // (-5) + 3 = -2
     }
 
     @Test
@@ -144,7 +153,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
         Expr ast = parser.parse();
 
-        assertEquals(15, ast.evaluate()); // ((10 - 4) * (3 + 2)) / 2 = 15
+        assertEquals(15, ast.accept(evaluator)); // ((10 - 4) * (3 + 2)) / 2 = 15
     }
 
 }
