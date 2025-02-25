@@ -42,7 +42,7 @@ public class CodeGenerator implements Visitor<StringBuilder>{
 
     @Override
     public StringBuilder visitNumberExpr(NumberExpr numberExpr) {
-        asm.append("MOV A, ").append(numberExpr.getValue()).append('\n');
+        asm.append("MOV A, ").append((int) numberExpr.getValue()).append('\n');
         return asm;
     }
 

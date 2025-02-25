@@ -2,6 +2,7 @@ package com.spella;
 
 import com.spella.lexer.Lexer;
 import com.spella.parser.Parser;
+import com.spella.parser.visitors.CodeGenerator;
 import com.spella.parser.visitors.Evaluator;
 
 import java.io.BufferedReader;
@@ -24,11 +25,15 @@ public class Main {
 
             var lexer = new Lexer(line);
             var parser = new Parser(lexer.tokenize());
-
             var ast = parser.parse();
 
-            var result = ast.accept(evaluator);
-            System.out.println(result);
+            // var result = ast.accept(evaluator);
+            // System.out.println(result);
+
+            // Testing code generation
+            var code = ast.accept(new CodeGenerator());
+            System.out.println(code);
+            
         }
     }
 }
