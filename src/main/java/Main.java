@@ -1,6 +1,4 @@
 import com.spella.lexer.Lexer;
-import com.spella.parser.Parser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +13,7 @@ public class Main {
         while (true) {
             line = br.readLine();
             var tokens = lexer.tokenize(line);
-            var parser = new Parser(tokens);
-            var expr = parser.parse();
-            System.out.println("Result: " + expr.evaluate());
+
         }
     }
 }

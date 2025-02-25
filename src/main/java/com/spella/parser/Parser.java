@@ -2,82 +2,84 @@ package com.spella.parser;
 
 import com.spella.lexer.Token;
 import com.spella.lexer.TokenType;
-import com.spella.parser.ast.Binary;
-import com.spella.parser.ast.Expression;
-import com.spella.parser.ast.Number;
+import com.spella.parser.ast.BinaryExpr;
+import com.spella.parser.ast.Expr;
+import com.spella.parser.ast.NumberExpr;
+import com.spella.parser.ast.UnaryExpr;
 import java.util.List;
 
 public class Parser {
 
     private final List<Token> tokens;
     private int cursor = 0;
+    private Token currentToken;
 
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
+        this.currentToken = tokens.get(cursor);
     }
 
-    private Token getNextToken() {
-        return cursor < tokens.size() ? tokens.get(cursor++) : null;
-    }
-
-    private void goBack() {
-        cursor = Math.max(0, cursor - 1);
-    }
-
-    private Expression factor() {
-        Token token = getNextToken();
-        if (token == null) throw new RuntimeException("Unexpected end of input");
-
-        if (token.getType().equals(TokenType.NUMBER)) {
-            return new Number((double) token.getLiteral());
-        } else if (token.getType().equals(TokenType.LPAREN)) {
-            var node = expr();
-            Token closingParen = getNextToken();
-            if (closingParen == null || !closingParen.getType().equals(TokenType.RPAREN)) {
-                throw new RuntimeException("Expected closing parenthesis");
+    private void eat(TokenType type) {
+        if (currentToken.getType() == type) {
+            cursor++;
+            if (cursor < tokens.size()) {
+                currentToken = tokens.get(cursor);
+            } else {
+                currentToken = new Token(TokenType.EOF, "", null, -1, -1); // Mark end of input
             }
-            return node;
         } else {
-            throw new RuntimeException("Unexpected token: " + token);
+            throw new RuntimeException("Unexpected token: " + currentToken.getLexeme());
         }
     }
 
-    private Expression term() {
-        var left = factor();
-        while (cursor < tokens.size()) {
-            Token token = getNextToken();
-            if (token == null) break;
+    // Parses: <expression> ::= <term> ( ("plus" | "minus") <term> )*
+    private Expr expression() {
+        Expr left = term(); // Parse the first term
 
-            if (token.getType().equals(TokenType.TIMES) || token.getType().equals(TokenType.DIVIDED_BY)) {
-                var right = factor();
-                left = new Binary(left, token.getLexeme(), right);
-            } else {
-                goBack();
-                break;
-            }
+        while (currentToken.getType() == TokenType.PLUS || currentToken.getType() == TokenType.MINUS) {
+            Token operator = currentToken;
+            eat(operator.getType()); // consume "plus" or "minus"
+            Expr right = term();
+            left = new BinaryExpr(left, operator, right);
         }
         return left;
     }
 
-    private Expression expr() {
-        var left = term();
-        while (cursor < tokens.size()) {
-            var token = getNextToken();
-            if (token == null) break;
+    // Parse: <term> ::= <factor> ( ("times" | "divided by") <factor> )*
+    private Expr term() {
+        Expr left = factor(); // Parse first factor
 
-            if (token.getType().equals(TokenType.PLUS) || token.getType().equals(TokenType.MINUS)) {
-                Expression right = term();
-                left = new Binary(left, token.getLexeme(), right);
-            } else {
-                goBack();
-                break;
-            }
+        while (currentToken.getType() == TokenType.TIMES || currentToken.getType() == TokenType.DIVIDED_BY) {
+            Token operator = currentToken;
+            eat(operator.getType());
+            Expr right = factor();
+            left = new BinaryExpr(left, operator, right);
         }
         return left;
     }
 
-    public Expression parse() {
-        return expr();
+    // Parse: <factor> ::= <unary> | <grouping> | <number>
+    private Expr factor() {
+        if (currentToken.getType() == TokenType.NUMBER) {
+            Token numberToken = currentToken;
+            eat(numberToken.getType());
+            return new NumberExpr(numberToken);
+        } else if (currentToken.getType() == TokenType.LPAREN) {
+            eat(TokenType.LPAREN);
+            Expr expr = expression();
+            eat(TokenType.RPAREN);
+            return expr;
+        } else if (currentToken.getType() == TokenType.MINUS) {
+            Token operator = currentToken;
+            eat(TokenType.MINUS);
+            Expr right = factor();
+            return new UnaryExpr(operator, right);
+        }
+        throw new RuntimeException("Unexpected token: " + currentToken.getLexeme());
+    }
+
+    public Expr parse() {
+        return expression();
     }
 
 }

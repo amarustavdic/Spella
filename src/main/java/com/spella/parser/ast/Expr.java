@@ -1,5 +1,5 @@
 package com.spella.parser.ast;
 
-public interface Expression {
+public interface Expr {
     double evaluate();
 }

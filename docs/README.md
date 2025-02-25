@@ -31,9 +31,9 @@ Form (BNF)**. This defines the syntax for valid arithmetic expressions.
 Bellow is the grammar for the supported expressions:
 
 ```bnf
-<expression> ::= <term> ( ("+" | "-") <term> )*
+<expression> ::= <term> ( ("plus" | "minus") <term> )*
 
-<term> ::= <factor> ( ("*" | "/") <factor> )*
+<term> ::= <factor> ( ("times" | "divided by") <factor> )*
 
 <factor> ::= <unary> | <grouping> | <number>
 
