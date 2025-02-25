@@ -2,6 +2,7 @@ package com.spella;
 
 import com.spella.lexer.Lexer;
 import com.spella.parser.Parser;
+import com.spella.parser.visitors.Evaluator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +12,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        // AST Visitors
+        var evaluator = new Evaluator();
+
+        // Simple REPL
         var br = new BufferedReader(new InputStreamReader(System.in));
         var line = "";
         while (true) {
@@ -19,7 +24,11 @@ public class Main {
 
             var lexer = new Lexer(line);
             var parser = new Parser(lexer.tokenize());
-            System.out.println(parser.parse().evaluate());
+
+            var ast = parser.parse();
+
+            var result = ast.accept(evaluator);
+            System.out.println(result);
         }
     }
 }

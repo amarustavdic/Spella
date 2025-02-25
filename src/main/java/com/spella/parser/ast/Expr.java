@@ -1,5 +1,7 @@
 package com.spella.parser.ast;
 
+import com.spella.parser.visitors.Visitor;
+
 public interface Expr {
-    double evaluate();
+    <T> T accept(Visitor<T> visitor);
 }

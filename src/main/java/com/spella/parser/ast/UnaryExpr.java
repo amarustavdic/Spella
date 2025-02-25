@@ -1,7 +1,7 @@
 package com.spella.parser.ast;
 
 import com.spella.lexer.Token;
-import com.spella.lexer.TokenType;
+import com.spella.parser.visitors.Visitor;
 
 public class UnaryExpr implements Expr {
 
@@ -14,11 +14,16 @@ public class UnaryExpr implements Expr {
     }
 
     @Override
-    public double evaluate() {
-        double value = right.evaluate();
-        if (operator.getType() == TokenType.MINUS) {
-            return -value;
-        }
-        throw new RuntimeException("Unknown unary operator: " + operator.getLexeme());
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visitUnaryExpr(this);
     }
+
+    public Token getOperator() {
+        return operator;
+    }
+
+    public Expr getRight() {
+        return right;
+    }
+
 }
