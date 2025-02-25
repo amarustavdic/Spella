@@ -1,7 +1,7 @@
 package com.spella.parser.ast;
 
 import com.spella.lexer.Token;
-import com.spella.lexer.TokenType;
+import com.spella.parser.visitors.Visitor;
 
 public class BinaryExpr implements Expr {
 
@@ -16,21 +16,20 @@ public class BinaryExpr implements Expr {
     }
 
     @Override
-    public double evaluate() {
-        double leftValue = left.evaluate();
-        double rightValue = right.evaluate();
+    public <T> T accept(Visitor<T> visitor) {
+        return visitor.visitBinaryExpr(this);
+    }
 
-        if (operator.getType() == TokenType.DIVIDED_BY && rightValue == 0.0) {
-            throw new ArithmeticException("Division by zero");
-        }
+    public Expr getLeft() {
+        return left;
+    }
 
-        return switch (operator.getType()) {
-            case PLUS -> leftValue + rightValue;
-            case MINUS -> leftValue - rightValue;
-            case TIMES -> leftValue * rightValue;
-            case DIVIDED_BY -> leftValue / rightValue;
-            default -> throw new RuntimeException("Unknown operator: " + operator.getLexeme());
-        };
+    public Token getOperator() {
+        return operator;
+    }
+
+    public Expr getRight() {
+        return right;
     }
 
 }
