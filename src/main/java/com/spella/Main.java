@@ -19,7 +19,7 @@ public class Main {
         var br = new BufferedReader(new InputStreamReader(System.in));
         var line = "";
         while (true) {
-            System.out.print("> ");
+            System.out.print(">>> ");
             line = br.readLine();
 
             var lexer = new Lexer(line);
